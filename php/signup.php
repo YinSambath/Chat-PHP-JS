@@ -5,6 +5,7 @@
     $lname = mysqli_real_escape_string($conn, $_POST['lname']);
     $email = mysqli_real_escape_string($conn, $_POST['email']);
     $password = mysqli_real_escape_string($conn, $_POST['password']);
+    $hash_password = password_hash($password, PASSWORD_DEFAULT);
 
     if (!empty($fname) && !empty($lname) && !empty($email) && !empty($password)) {
         // validation
@@ -33,7 +34,7 @@
                         $random_id = rand(time(), 10000000); //creating random id for user
                         
                         $sql2 = mysqli_query($conn, "INSERT INTO users (unique_id, fname, lname, email, password, img, status)    
-                                                VALUES ({$random_id}, '{$fname}', '{$lname}', '{$email}', '{$password}', '{$new_img_name}', '{$status}')");
+                                                VALUES ({$random_id}, '{$fname}', '{$lname}', '{$email}', '{$hash_password}', '{$new_img_name}', '{$status}')");
                         if($sql2) {
                             move_uploaded_file($tmp_name, "images/".$new_img_name);
                             // if these data inserted
